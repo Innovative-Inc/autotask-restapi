@@ -5,6 +5,8 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
+    "prepublishOnly": "npm run publint",
+    "publint": "npx --package publint@latest -- publint",
     "test": "jest index.test.js"
   },
   "repository": {
