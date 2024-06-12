@@ -33,9 +33,6 @@ jobs:
       - name: "Install dependencies"
         run: npm i
 
-      - name: "Build"
-        run: npm run build
-
       - name: "Ensure tag matches version"
         run: |
           if [ "$(git describe --tags --abbrev=0)" != "$(node -p 'require("./package.json").version')" ]; then
