@@ -1,0 +1,57 @@
+# Usage:
+# jobs:
+#   example:
+#     uses: ./.github/workflows/publish.yml
+#     secrets: inherit
+
+name: "Publish to package registry"
+on:
+  workflow_call:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Check out everything (including tags) for tag comparison below,
+          # instead of using the default shallow clone.
+          fetch-depth: 0
+
+      - name: "Install Node.js"
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.x"
+          registry-url: "https://npm.pkg.github.com/"
+          cache: "npm"
+
+      - name: "Install dependencies"
+        run: npm i
+
+      - name: "Build"
+        run: npm run build
+
+      - name: "Ensure tag matches version"
+        run: |
+          if [ "$(git describe --tags --abbrev=0)" != "$(node -p 'require("./package.json").version')" ]; then
+            echo "Tag does not match version"
+            exit 1
+          fi
+
+      - name: "Prepare authentication"
+        # Use single quotes to prevent the shell from interpreting the $
+        # character here, it will be automatically replaced in the "Publish"
+        # step below.
+        run: |
+          echo '//npm.pkg.github.com/:_authToken=${NPM_CONFIG_TOKEN}' >> .npmrc
+          echo 'always-auth=true' >> .npmrc
+
+      - name: "Publish"
+        run: npm publish --access restricted
+        env:
+          NPM_CONFIG_TOKEN: ${{ secrets.GITHUB_TOKEN }}

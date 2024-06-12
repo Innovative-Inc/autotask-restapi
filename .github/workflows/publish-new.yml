@@ -1,0 +1,9 @@
+name: "Publish new release to package registry"
+on:
+  release:
+    types: [released]
+
+jobs:
+  publish-new:
+    uses: ./.github/workflows/publish.yml
+    secrets: inherit

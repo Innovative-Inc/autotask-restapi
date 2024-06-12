@@ -1,0 +1,8 @@
+name: "Publish current to package registry"
+on:
+  workflow_dispatch:
+
+jobs:
+  publish-new:
+    uses: ./.github/workflows/publish.yml
+    secrets: inherit
