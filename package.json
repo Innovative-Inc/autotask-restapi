@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/apigrate/autotask-restapi.git"
+    "url": "https://github.com/Innovative-Inc/ts-package-template.git"
   },
   "keywords": [
     "Autotask",
@@ -19,9 +19,12 @@
   "author": "Derek Gau",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/apigrate/autotask-restapi/issues"
+    "url": "https://github.com/Innovative-Inc/autotask-restapi/issues"
   },
-  "homepage": "https://github.com/apigrate/autotask-restapi#readme",
+  "homepage": "https://github.com/Innovative-Inc/autotask-restapi",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "dependencies": {
     "debug": "^4.3.4"
   },
