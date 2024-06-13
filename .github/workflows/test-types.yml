@@ -1,0 +1,24 @@
+name: "Test types"
+on:
+  pull_request:
+
+jobs:
+  test-types:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: "Install Node.js"
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "npm"
+
+      - name: "Install dependencies"
+        run: npm ci
+
+      - name: "Test"
+        run: npm run test:types
