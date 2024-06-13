@@ -647,7 +647,7 @@ export class AutotaskApiError extends Error {
   )
 }
 
-export interface FilterOperators {
+interface FilterOperators {
   /** Requires that the field value match the exact criteria provided */
   eq: "eq",
   /** Requires that the field value be anything other than the criteria provided */
@@ -675,3 +675,4 @@ export interface FilterOperators {
   /** With this value specified, the query will only return the values in the list array that do not match the field value you specify */
   notIn: "notIn"
 }
+export const FilterOperators: FilterOperators
