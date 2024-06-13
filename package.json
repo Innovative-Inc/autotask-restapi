@@ -8,6 +8,7 @@
     "prepublishOnly": "npm run check:attws && npm run check:publint",
     "check:attw": "npx --package @arethetypeswrong/cli@latest -- attw --pack",
     "check:publint": "npx --package publint@latest -- publint",
+    "format": "prettier --write \"{**/*,*}.{js,ts,jsx,tsx,cjs,mjs,json,yaml,yml,md,css,scss,sass}\"",
     "test": "vitest",
     "test:types": "vitest --typecheck"
   },
@@ -41,7 +42,10 @@
     "type-fest": "^4.20.0"
   },
   "devDependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "^4.2.1",
     "dotenv": "^8.6.0",
+    "prettier": "^3.3.2",
+    "prettier-plugin-jsdoc": "^1.3.0",
     "typescript": "^5.4.5",
     "vitest": "^1.6.0"
   },
