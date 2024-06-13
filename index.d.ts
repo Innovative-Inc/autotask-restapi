@@ -1,4 +1,9 @@
-import type {JsonObject, JsonPrimitive, OptionalKeysOf, ValueOf} from "type-fest"
+import type {
+  JsonObject,
+  JsonPrimitive,
+  OptionalKeysOf,
+  ValueOf
+} from "type-fest"
 
 export type RequestOptions = {
   omit_credentials?: boolean
@@ -42,8 +47,8 @@ export type CountInput = FilterInput
 type FieldsFromEntity<T extends Entity> =
   | Exclude<keyof T, "userDefinedFields">
   | (T["userDefinedFields"] extends UserDefinedField[]
-  ? T["userDefinedFields"][number]["name"]
-  : never)
+      ? T["userDefinedFields"][number]["name"]
+      : never)
 
 export type QueryInput<T extends Entity = Entity> = FilterInput & {
   /**
@@ -64,9 +69,7 @@ export type QueryInput<T extends Entity = Entity> = FilterInput & {
 // filter expressions
 type GroupingOperator = "and" | "or"
 type EqualityOperator = ValueOf<Pick<FilterOperators, "eq" | "noteq">>
-type ExistenceOperator = ValueOf<
-  Pick<FilterOperators, "exist" | "notExist">
->
+type ExistenceOperator = ValueOf<Pick<FilterOperators, "exist" | "notExist">>
 type SetOperator = ValueOf<Pick<FilterOperators, "in" | "notIn">>
 type StringOperator = ValueOf<
   Pick<FilterOperators, "beginsWith" | "endsWith" | "contains">
@@ -136,18 +139,18 @@ type SharedPicklistValues = {
 // `NullishValue` generic type exists because built-in fields and UDFs have
 // different values when "null"
 type PicklistFieldInfo<NullishValue> =
-// normal picklist
+  // normal picklist
   | {
-  picklistParentValueField: NullishValue
-  // however, it seems that both built-in fields and UDFs have the same
-  // `parentValue` value when "null"
-  picklistValues: ({ parentValue: "" } & SharedPicklistValues)[]
-}
+      picklistParentValueField: NullishValue
+      // however, it seems that both built-in fields and UDFs have the same
+      // `parentValue` value when "null"
+      picklistValues: ({ parentValue: "" } & SharedPicklistValues)[]
+    }
   // child picklist
   | {
-  picklistParentValueField: string
-  picklistValues: ({ parentValue: string } & SharedPicklistValues)[]
-}
+      picklistParentValueField: string
+      picklistValues: ({ parentValue: string } & SharedPicklistValues)[]
+    }
 type NonPicklistFieldInfo<NullishValue> = {
   picklistValues: null
   picklistParentValueField: NullishValue
@@ -169,43 +172,43 @@ export type FieldInfo = {
 } & (
   | // normal, non-string field
   ({
-    dataType:
-      | "boolean"
-      | "integer"
-      | "long"
-      | "double"
-      | "decimal"
-      | "datetime"
-    isPicklist: false
-    isReference: false
-  } & NonStringFieldInfo &
-    NonPicklistFieldInfo<""> &
-    NonReferenceFieldInfo<"">)
+      dataType:
+        | "boolean"
+        | "integer"
+        | "long"
+        | "double"
+        | "decimal"
+        | "datetime"
+      isPicklist: false
+      isReference: false
+    } & NonStringFieldInfo &
+      NonPicklistFieldInfo<""> &
+      NonReferenceFieldInfo<"">)
   // normal string field
   | ({
-  dataType: "string"
-  isPicklist: false
-  isReference: false
-} & StringFieldInfo &
-  NonPicklistFieldInfo<""> &
-  NonReferenceFieldInfo<"">)
+      dataType: "string"
+      isPicklist: false
+      isReference: false
+    } & StringFieldInfo &
+      NonPicklistFieldInfo<""> &
+      NonReferenceFieldInfo<"">)
   // picklist field
   | ({
-  dataType: "integer"
-  isPicklist: true
-  isReference: false
-} & NonStringFieldInfo &
-  PicklistFieldInfo<""> &
-  NonReferenceFieldInfo<"">)
+      dataType: "integer"
+      isPicklist: true
+      isReference: false
+    } & NonStringFieldInfo &
+      PicklistFieldInfo<""> &
+      NonReferenceFieldInfo<"">)
   // reference field
   | ({
-  dataType: "integer"
-  isPicklist: false
-  isReference: true
-} & NonStringFieldInfo &
-  NonPicklistFieldInfo<""> &
-  ReferenceFieldInfo)
-  )
+      dataType: "integer"
+      isPicklist: false
+      isReference: true
+    } & NonStringFieldInfo &
+      NonPicklistFieldInfo<""> &
+      ReferenceFieldInfo)
+)
 export type FieldInfoResponse = { fields: FieldInfo[] }
 
 // UDF field info response
@@ -223,223 +226,415 @@ export type UdfFieldInfo = {
 } & (
   | // normal, non-string field
   ({
-    type: "double" | "datetime"
-    isPicklist: false
-    isReference: false
-  } & NonStringUdfFieldInfo &
-    NonPicklistFieldInfo<null> &
-    NonReferenceFieldInfo<null>)
+      type: "double" | "datetime"
+      isPicklist: false
+      isReference: false
+    } & NonStringUdfFieldInfo &
+      NonPicklistFieldInfo<null> &
+      NonReferenceFieldInfo<null>)
   // normal string field
   | ({
-  type: "string"
-  isPicklist: false
-  isReference: false
-} & StringUdfFieldInfo &
-  NonPicklistFieldInfo<null> &
-  NonReferenceFieldInfo<null>)
+      type: "string"
+      isPicklist: false
+      isReference: false
+    } & StringUdfFieldInfo &
+      NonPicklistFieldInfo<null> &
+      NonReferenceFieldInfo<null>)
   // picklist field
   | ({
-  type: "integer"
-  isPicklist: true
-  isReference: false
-} & NonStringUdfFieldInfo &
-  PicklistFieldInfo<null> &
-  NonReferenceFieldInfo<null>)
+      type: "integer"
+      isPicklist: true
+      isReference: false
+    } & NonStringUdfFieldInfo &
+      PicklistFieldInfo<null> &
+      NonReferenceFieldInfo<null>)
   // reference field
   | ({
-  type: "integer"
-  isPicklist: false
-  isReference: true
-} & NonStringUdfFieldInfo &
-  NonPicklistFieldInfo<null> &
-  ReferenceFieldInfo)
-  )
+      type: "integer"
+      isPicklist: false
+      isReference: true
+    } & NonStringUdfFieldInfo &
+      NonPicklistFieldInfo<null> &
+      ReferenceFieldInfo)
+)
 export type UdfInfoResponse = { fields: UdfFieldInfo[] }
 
 type AvailableEntities = [
   { name: "zoneInformation" },
-  { name: 'ActionTypes' },
-  { name: 'AdditionalInvoiceFieldValues' },
-  { name: 'Appointments' },
-  { name: 'AttachmentInfo' },
-  { name: 'ProjectCharges' },
-  { name: 'BillingCodes' },
-  { name: 'BillingItems' },
-  { name: 'BillingItemApprovalLevels' },
-  { name: 'ChangeOrderCharges' },
-  { name: 'ChangeRequestLinks' },
-  { name: 'ChecklistLibraries' },
-  { name: 'ChecklistLibraryChecklistItems', childOf: 'ChecklistLibraries', subname: 'ChecklistItems' },
-  { name: 'ClassificationIcons' },
-  { name: 'ClientPortalUsers' },
-  { name: 'ComanagedAssociations' },
-  { name: 'Companies' },
-  { name: 'CompanyAlerts', childOf: 'Companies', subname: 'Alerts' },
-  { name: 'CompanyAttachments', childOf: 'Companies', subname: 'Attachments' },
-  { name: 'CompanyContacts', childOf: 'Companies', subname: 'Contacts' },
-  { name: 'CompanyLocations', childOf: 'Companies', subname: 'Locations' },
-  { name: 'CompanyNotes', childOf: 'Companies', subname: 'Notes' },
-  { name: 'CompanySiteConfigurations', childOf: 'Companies', subname: 'SiteConfigurations' },
-  { name: 'CompanyTeams', childOf: 'Companies', subname: 'Teams' },
-  { name: 'CompanyToDos', childOf: 'Companies', subname: 'ToDos' },
-  { name: 'CompanyWebhooks' },
-  { name: 'CompanyWebhookExcludedResources', childOf: 'CompanyWebhooks', subname: 'ExcludedResources' },
-  { name: 'CompanyWebhookFields', childOf: 'CompanyWebhooks', subname: 'Fields' },
-  { name: 'CompanyWebhookUdfFields', childOf: 'CompanyWebhoosk', subname: 'UdfFields' },
-  { name: 'ConfigurationItems' },
-  { name: 'ConfigurationItemAttachments', childOf: 'ConfigurationItems', subname: 'Attachments' },
+  { name: "ActionTypes" },
+  { name: "AdditionalInvoiceFieldValues" },
+  { name: "Appointments" },
+  { name: "AttachmentInfo" },
+  { name: "ProjectCharges" },
+  { name: "BillingCodes" },
+  { name: "BillingItems" },
+  { name: "BillingItemApprovalLevels" },
+  { name: "ChangeOrderCharges" },
+  { name: "ChangeRequestLinks" },
+  { name: "ChecklistLibraries" },
   {
-    name: 'ConfigurationItemBillingProductAssociations',
-    childOf: 'ConfigurationItems',
-    subname: 'BillingProductAssociations'
+    name: "ChecklistLibraryChecklistItems"
+    childOf: "ChecklistLibraries"
+    subname: "ChecklistItems"
   },
-  { name: 'ConfigurationItemCategories' },
+  { name: "ClassificationIcons" },
+  { name: "ClientPortalUsers" },
+  { name: "ComanagedAssociations" },
+  { name: "Companies" },
+  { name: "CompanyAlerts"; childOf: "Companies"; subname: "Alerts" },
+  { name: "CompanyAttachments"; childOf: "Companies"; subname: "Attachments" },
+  { name: "CompanyContacts"; childOf: "Companies"; subname: "Contacts" },
+  { name: "CompanyLocations"; childOf: "Companies"; subname: "Locations" },
+  { name: "CompanyNotes"; childOf: "Companies"; subname: "Notes" },
   {
-    name: 'ConfigurationItemCategoryUdfAssociations',
-    childOf: 'ConfigurationItemCategories',
-    subname: 'UdfAssociations'
+    name: "CompanySiteConfigurations"
+    childOf: "Companies"
+    subname: "SiteConfigurations"
   },
-  { name: 'ConfigurationItemNotes', childOf: 'ConfigurationItems', subname: 'Notes' },
-  { name: 'ConfigurationItemNoteAttachments', childOf: 'ConfigurationItemNotes', subname: 'Attachments' },
-  { name: 'ConfigurationItemTypes' },
-  { name: 'Contacts' },
-  { name: 'ContactBillingProductAssociations', childOf: 'Contacts', subname: 'BillingProductAssociationis' },
-  { name: 'ContactGroups' },
-  { name: 'ContactGroupContacts', childOf: 'ContactGroups', subname: 'Contacts' },
-  { name: 'ContactWebhooks' },
-  { name: 'ContactWebhookExcludedResources', childOf: 'ContactWebhooks', subname: 'ExcludedResources' },
-  { name: 'ContactWebhookFields', childOf: 'ContactWebhooks', subname: 'Fields' },
-  { name: 'ContactWebhookUdfFields', childOf: 'ContactWebhooks', subname: 'UdfFields' },
-  { name: 'Contracts' },
-  { name: 'ContractBillingRules', childOf: 'Contracts', subname: 'BillingRules' },
-  { name: 'ContractBlocks', childOf: 'Contracts', subname: 'Blocks' },
-  { name: 'ContractBlockHourFactors', childOf: 'Contracts', subname: 'BlockHourFactors' },
-  { name: 'ContractCharges', childOf: 'Contracts', subname: 'Charges' },
-  { name: 'ContractExclusionBillingCodes', childOf: 'Contracts', subname: 'ExclusionBillingCodes' },
-  { name: 'ContractExclusionRoles', childOf: 'Contracts', subname: 'ExclusionRoles' },
-  { name: 'ContractExclusionSets' },
-  { name: 'ContractExclusionSetExcludedRoles', childOf: 'ContractExclusionSets', subname: 'ExcludedRoles' },
-  { name: 'ContractExclusionSetExcludedWorkTypes', childOf: 'ContractExclusionSets', subname: 'ExcludedWorkTypes' },
-  { name: 'ContractMilestones', childOf: 'Contracts', subname: 'Milestones' },
-  { name: 'ContractNotes', childOf: 'Contracts', subname: 'Notes' },
-  { name: 'ContractRates', childOf: 'Contracts', subname: 'Rates' },
-  { name: 'ContractRetainers', childOf: 'Contracts', subname: 'Retainers' },
-  { name: 'ContractRoleCosts', childOf: 'Contracts', subname: 'RoleCosts' },
-  { name: 'ContractServices', childOf: 'Contracts', subname: 'Services' },
-  { name: 'ContractServiceAdjustments', childOf: 'Contracts', subname: 'ServiceAdjustments' },
-  { name: 'ContractServiceBundles', childOf: 'Contracts', subname: 'ServiceBundles' },
-  { name: 'ContractServiceBundleAdjustments', childOf: 'Contracts', subname: 'ServiceBundleAdjustments' },
-  { name: 'ContractServiceBundleUnits', childOf: 'Contracts', subname: 'ServiceBundleUnits' },
-  { name: 'ContractServiceUnits', childOf: 'Contracts', subname: 'ServiceUnits' },
-  { name: 'ContractTicketPurchases', childOf: 'Contracts', subname: 'TicketPurchases' },
-  { name: 'Countries' },
-  { name: 'Currencies' },
-  { name: 'Departments' },
-  { name: 'Expenses' },
-  { name: 'ExpenseItems', childOf: 'Expenses', subname: 'Items' },
-  { name: 'ExpenseReports' },
-  { name: 'Holidays', childOf: 'HolidaySets', subname: 'Holidays' },
-  { name: 'HolidaySets' },
-  { name: 'InternalLocations' },
-  { name: 'InternalLocationWithBusinessHours' },
-  { name: 'InventoryItems' },
-  { name: 'InventoryItemSerialNumbers', childOf: 'InventoryItems', subname: 'SerialNumbers' },
-  { name: 'InventoryLocations' },
-  { name: 'InventoryTransfers' },
-  { name: 'Invoices' },
-  { name: 'InvoiceTemplates' },
-  { name: 'Modules' },
-  { name: 'NotificationHistory' },
-  { name: 'Opportunities' },
-  { name: 'OpportunityAttachments', childOf: 'Opportunities', subname: 'Attachments' },
-  { name: 'OrganizationalLevel1s' },
-  { name: 'OrganizationalLevel2s' },
-  { name: 'OrganizationalLevelAssociations' },
-  { name: 'OrganizationalResources', childOf: 'OrganizationalLevelAssociations', subname: 'Resources' },
-  { name: 'PaymentTerms' },
-  { name: 'Phases', childOf: 'Projects', subname: 'Phases' },
-  { name: 'PriceListMaterialCodes' },
-  { name: 'PriceListProducts' },
-  { name: 'PriceListProductTiers' },
-  { name: 'PriceListRoles' },
-  { name: 'PriceListServices' },
-  { name: 'PriceListServiceBundles' },
-  { name: 'PriceListWorkTypeModifiers' },
-  { name: 'Products' },
-  { name: 'ProductNotes', childOf: 'Products', subname: 'Notes' },
-  { name: 'ProductTiers', childOf: 'Products', subname: 'Tiers' },
-  { name: 'ProductVendors', childOf: 'Products', subname: 'Vendors' },
-  { name: 'Projects' },
-  { name: 'ProjectAttachments', childOf: 'Projects', subname: 'Attachments' },
-  { name: 'ProjectCharges', childOf: 'Projects', subname: 'Charges' },
-  { name: 'ProjectNotes', childOf: 'Projects', subname: 'Notes' },
-  { name: 'PurchaseApprovals' },
-  { name: 'PurchaseOrders' },
-  { name: 'PurchaseOrderItems', childOf: 'PurchaseOrders', subname: 'Items' },
-  { name: 'PurchaseOrderItemReceiving', childOf: 'PurchaseOrderItems', subname: 'Receiving' },
-  { name: 'Quotes' },
-  { name: 'QuoteItems', childOf: 'Quotes', subname: 'Items' },
-  { name: 'QuoteLocations' },
-  { name: 'QuoteTemplates' },
-  { name: 'Resources' },
-  { name: 'ResourceRoles' },
-  { name: 'ResourceRoleDepartments', childOf: 'Resources', subname: 'RoleDepartments' },
-  { name: 'ResourceRoleQueues', childOf: 'Resources', subname: 'RoleQueues' },
-  { name: 'ResourceServiceDeskRoles', childOf: 'Resources', subname: 'ServiceDeskRoles' },
-  { name: 'ResourceSkills', childOf: 'Resources', subname: 'Skills' },
-  { name: 'Roles' },
-  { name: 'SalesOrders', childOf: 'Opportunities', subname: 'SalesOrders' },
-  { name: 'Services' },
-  { name: 'ServiceBundles' },
-  { name: 'ServiceBundleServices', childOf: 'ServiceBundles', subname: 'Services' },
-  { name: 'ServiceCalls' },
-  { name: 'ServiceCallTasks', childOf: 'ServiceCalls', subname: 'Tasks' },
-  { name: 'ServiceCallTaskResources', childOf: 'ServiceCallTasks', subname: 'Resources' },
-  { name: 'ServiceCallTickets', childOf: 'ServiceCalls', subname: 'Tickets' },
-  { name: 'ServiceCallTicketResources', childOf: 'ServiceCallTickets', subname: 'Resources' },
-  { name: 'ServiceLevelAgreementResults', childOf: 'ServiceLevelAgreements', subname: 'Results' },
-  { name: 'ShippingTypes' },
-  { name: 'Skills' },
-  { name: 'Subscriptions' },
-  { name: 'SubscriptionPeriods', childOf: 'Subscriptions', subname: 'Periods' },
-  { name: 'Surveys' },
-  { name: 'SurveyResults' },
-  { name: 'Tasks', childOf: 'Projects', subname: 'Tasks' },
-  { name: 'TaskAttachments', childOf: 'Tasks', subname: 'Attachments' },
-  { name: 'TaskNotes', childOf: 'Tasks', subname: 'Notes' },
-  { name: 'TaskNoteAttachments', childOf: 'TaskNotes', subname: 'Attachments' },
-  { name: 'TaskPredecessors', childOf: 'Tasks', subname: 'Predecessors' },
-  { name: 'TaskSecondaryResources', childOf: 'Tasks', subname: 'SecondaryResources' },
-  { name: 'Taxes' },
-  { name: 'TaxCategories' },
-  { name: 'TaxRegions' },
-  { name: 'ThresholdInformation' },
-  { name: 'Tickets' },
-  { name: 'TicketAdditionalConfigurationItems', childOf: 'Tickets', subname: 'AdditionalConfigurationItems' },
-  { name: 'TicketAdditionalContacts', childOf: 'Tickets', subname: 'AdditionalContacts' },
-  { name: 'TicketAttachments', childOf: 'Tickets', subname: 'Attachments' },
-  { name: 'TicketCategories' },
-  { name: 'TicketCategoryFieldDefaults', childOf: 'TicketCategories', subname: 'FieldDefaults' },
-  { name: 'TicketChangeRequestApprovals', childOf: 'Tickets', subname: 'ChangeRequestApprovals' },
-  { name: 'TicketCharges', childOf: 'Tickets', subname: 'Charges' },
-  { name: 'TicketChecklistItems', childOf: 'Tickets', subname: 'ChecklistItems' },
-  { name: 'TicketChecklistLibraries', childOf: 'Tickets', subname: 'ChecklistLibraries' },
-  { name: 'TicketHistory' },
-  { name: 'TicketNotes', childOf: 'Tickets', subname: 'Notes' },
-  { name: 'TicketNoteAttachments', childOf: 'TicketNotes', subname: 'Attachments' },
-  { name: 'TicketRmaCredits', childOf: 'Tickets', subname: 'RmaCredits' },
-  { name: 'TicketSecondaryResources', childOf: 'Tickets', subname: 'SecondaryResources' },
-  { name: 'TimeEntries' },
-  { name: 'TimeEntryAttachments', childOf: 'TimeEntries', subname: 'Attachments' },
-  { name: 'TimeOffRequestsApprove', childOf: 'TimeOffRequests', subname: 'Approve' },
-  { name: 'TimeOffRequests' },
-  { name: 'TimeOffRequestsReject', childOf: 'TimeOffRequests', subname: 'Reject' },
-  { name: 'UserDefinedFieldDefinitions' },
-  { name: 'UserDefinedFieldListItems', childOf: 'UserDefinedFields', subname: 'ListItems' },//note, no parent native
-                                                                                            // entity
-  { name: 'WebhookEventErrorLogs' },
-  { name: 'WorkTypeModifiers' },
-  { name: 'ZoneInformation' },
+  { name: "CompanyTeams"; childOf: "Companies"; subname: "Teams" },
+  { name: "CompanyToDos"; childOf: "Companies"; subname: "ToDos" },
+  { name: "CompanyWebhooks" },
+  {
+    name: "CompanyWebhookExcludedResources"
+    childOf: "CompanyWebhooks"
+    subname: "ExcludedResources"
+  },
+  {
+    name: "CompanyWebhookFields"
+    childOf: "CompanyWebhooks"
+    subname: "Fields"
+  },
+  {
+    name: "CompanyWebhookUdfFields"
+    childOf: "CompanyWebhoosk"
+    subname: "UdfFields"
+  },
+  { name: "ConfigurationItems" },
+  {
+    name: "ConfigurationItemAttachments"
+    childOf: "ConfigurationItems"
+    subname: "Attachments"
+  },
+  {
+    name: "ConfigurationItemBillingProductAssociations"
+    childOf: "ConfigurationItems"
+    subname: "BillingProductAssociations"
+  },
+  { name: "ConfigurationItemCategories" },
+  {
+    name: "ConfigurationItemCategoryUdfAssociations"
+    childOf: "ConfigurationItemCategories"
+    subname: "UdfAssociations"
+  },
+  {
+    name: "ConfigurationItemNotes"
+    childOf: "ConfigurationItems"
+    subname: "Notes"
+  },
+  {
+    name: "ConfigurationItemNoteAttachments"
+    childOf: "ConfigurationItemNotes"
+    subname: "Attachments"
+  },
+  { name: "ConfigurationItemTypes" },
+  { name: "Contacts" },
+  {
+    name: "ContactBillingProductAssociations"
+    childOf: "Contacts"
+    subname: "BillingProductAssociationis"
+  },
+  { name: "ContactGroups" },
+  {
+    name: "ContactGroupContacts"
+    childOf: "ContactGroups"
+    subname: "Contacts"
+  },
+  { name: "ContactWebhooks" },
+  {
+    name: "ContactWebhookExcludedResources"
+    childOf: "ContactWebhooks"
+    subname: "ExcludedResources"
+  },
+  {
+    name: "ContactWebhookFields"
+    childOf: "ContactWebhooks"
+    subname: "Fields"
+  },
+  {
+    name: "ContactWebhookUdfFields"
+    childOf: "ContactWebhooks"
+    subname: "UdfFields"
+  },
+  { name: "Contracts" },
+  {
+    name: "ContractBillingRules"
+    childOf: "Contracts"
+    subname: "BillingRules"
+  },
+  { name: "ContractBlocks"; childOf: "Contracts"; subname: "Blocks" },
+  {
+    name: "ContractBlockHourFactors"
+    childOf: "Contracts"
+    subname: "BlockHourFactors"
+  },
+  { name: "ContractCharges"; childOf: "Contracts"; subname: "Charges" },
+  {
+    name: "ContractExclusionBillingCodes"
+    childOf: "Contracts"
+    subname: "ExclusionBillingCodes"
+  },
+  {
+    name: "ContractExclusionRoles"
+    childOf: "Contracts"
+    subname: "ExclusionRoles"
+  },
+  { name: "ContractExclusionSets" },
+  {
+    name: "ContractExclusionSetExcludedRoles"
+    childOf: "ContractExclusionSets"
+    subname: "ExcludedRoles"
+  },
+  {
+    name: "ContractExclusionSetExcludedWorkTypes"
+    childOf: "ContractExclusionSets"
+    subname: "ExcludedWorkTypes"
+  },
+  { name: "ContractMilestones"; childOf: "Contracts"; subname: "Milestones" },
+  { name: "ContractNotes"; childOf: "Contracts"; subname: "Notes" },
+  { name: "ContractRates"; childOf: "Contracts"; subname: "Rates" },
+  { name: "ContractRetainers"; childOf: "Contracts"; subname: "Retainers" },
+  { name: "ContractRoleCosts"; childOf: "Contracts"; subname: "RoleCosts" },
+  { name: "ContractServices"; childOf: "Contracts"; subname: "Services" },
+  {
+    name: "ContractServiceAdjustments"
+    childOf: "Contracts"
+    subname: "ServiceAdjustments"
+  },
+  {
+    name: "ContractServiceBundles"
+    childOf: "Contracts"
+    subname: "ServiceBundles"
+  },
+  {
+    name: "ContractServiceBundleAdjustments"
+    childOf: "Contracts"
+    subname: "ServiceBundleAdjustments"
+  },
+  {
+    name: "ContractServiceBundleUnits"
+    childOf: "Contracts"
+    subname: "ServiceBundleUnits"
+  },
+  {
+    name: "ContractServiceUnits"
+    childOf: "Contracts"
+    subname: "ServiceUnits"
+  },
+  {
+    name: "ContractTicketPurchases"
+    childOf: "Contracts"
+    subname: "TicketPurchases"
+  },
+  { name: "Countries" },
+  { name: "Currencies" },
+  { name: "Departments" },
+  { name: "Expenses" },
+  { name: "ExpenseItems"; childOf: "Expenses"; subname: "Items" },
+  { name: "ExpenseReports" },
+  { name: "Holidays"; childOf: "HolidaySets"; subname: "Holidays" },
+  { name: "HolidaySets" },
+  { name: "InternalLocations" },
+  { name: "InternalLocationWithBusinessHours" },
+  { name: "InventoryItems" },
+  {
+    name: "InventoryItemSerialNumbers"
+    childOf: "InventoryItems"
+    subname: "SerialNumbers"
+  },
+  { name: "InventoryLocations" },
+  { name: "InventoryTransfers" },
+  { name: "Invoices" },
+  { name: "InvoiceTemplates" },
+  { name: "Modules" },
+  { name: "NotificationHistory" },
+  { name: "Opportunities" },
+  {
+    name: "OpportunityAttachments"
+    childOf: "Opportunities"
+    subname: "Attachments"
+  },
+  { name: "OrganizationalLevel1s" },
+  { name: "OrganizationalLevel2s" },
+  { name: "OrganizationalLevelAssociations" },
+  {
+    name: "OrganizationalResources"
+    childOf: "OrganizationalLevelAssociations"
+    subname: "Resources"
+  },
+  { name: "PaymentTerms" },
+  { name: "Phases"; childOf: "Projects"; subname: "Phases" },
+  { name: "PriceListMaterialCodes" },
+  { name: "PriceListProducts" },
+  { name: "PriceListProductTiers" },
+  { name: "PriceListRoles" },
+  { name: "PriceListServices" },
+  { name: "PriceListServiceBundles" },
+  { name: "PriceListWorkTypeModifiers" },
+  { name: "Products" },
+  { name: "ProductNotes"; childOf: "Products"; subname: "Notes" },
+  { name: "ProductTiers"; childOf: "Products"; subname: "Tiers" },
+  { name: "ProductVendors"; childOf: "Products"; subname: "Vendors" },
+  { name: "Projects" },
+  { name: "ProjectAttachments"; childOf: "Projects"; subname: "Attachments" },
+  { name: "ProjectCharges"; childOf: "Projects"; subname: "Charges" },
+  { name: "ProjectNotes"; childOf: "Projects"; subname: "Notes" },
+  { name: "PurchaseApprovals" },
+  { name: "PurchaseOrders" },
+  { name: "PurchaseOrderItems"; childOf: "PurchaseOrders"; subname: "Items" },
+  {
+    name: "PurchaseOrderItemReceiving"
+    childOf: "PurchaseOrderItems"
+    subname: "Receiving"
+  },
+  { name: "Quotes" },
+  { name: "QuoteItems"; childOf: "Quotes"; subname: "Items" },
+  { name: "QuoteLocations" },
+  { name: "QuoteTemplates" },
+  { name: "Resources" },
+  { name: "ResourceRoles" },
+  {
+    name: "ResourceRoleDepartments"
+    childOf: "Resources"
+    subname: "RoleDepartments"
+  },
+  { name: "ResourceRoleQueues"; childOf: "Resources"; subname: "RoleQueues" },
+  {
+    name: "ResourceServiceDeskRoles"
+    childOf: "Resources"
+    subname: "ServiceDeskRoles"
+  },
+  { name: "ResourceSkills"; childOf: "Resources"; subname: "Skills" },
+  { name: "Roles" },
+  { name: "SalesOrders"; childOf: "Opportunities"; subname: "SalesOrders" },
+  { name: "Services" },
+  { name: "ServiceBundles" },
+  {
+    name: "ServiceBundleServices"
+    childOf: "ServiceBundles"
+    subname: "Services"
+  },
+  { name: "ServiceCalls" },
+  { name: "ServiceCallTasks"; childOf: "ServiceCalls"; subname: "Tasks" },
+  {
+    name: "ServiceCallTaskResources"
+    childOf: "ServiceCallTasks"
+    subname: "Resources"
+  },
+  { name: "ServiceCallTickets"; childOf: "ServiceCalls"; subname: "Tickets" },
+  {
+    name: "ServiceCallTicketResources"
+    childOf: "ServiceCallTickets"
+    subname: "Resources"
+  },
+  {
+    name: "ServiceLevelAgreementResults"
+    childOf: "ServiceLevelAgreements"
+    subname: "Results"
+  },
+  { name: "ShippingTypes" },
+  { name: "Skills" },
+  { name: "Subscriptions" },
+  { name: "SubscriptionPeriods"; childOf: "Subscriptions"; subname: "Periods" },
+  { name: "Surveys" },
+  { name: "SurveyResults" },
+  { name: "Tasks"; childOf: "Projects"; subname: "Tasks" },
+  { name: "TaskAttachments"; childOf: "Tasks"; subname: "Attachments" },
+  { name: "TaskNotes"; childOf: "Tasks"; subname: "Notes" },
+  { name: "TaskNoteAttachments"; childOf: "TaskNotes"; subname: "Attachments" },
+  { name: "TaskPredecessors"; childOf: "Tasks"; subname: "Predecessors" },
+  {
+    name: "TaskSecondaryResources"
+    childOf: "Tasks"
+    subname: "SecondaryResources"
+  },
+  { name: "Taxes" },
+  { name: "TaxCategories" },
+  { name: "TaxRegions" },
+  { name: "ThresholdInformation" },
+  { name: "Tickets" },
+  {
+    name: "TicketAdditionalConfigurationItems"
+    childOf: "Tickets"
+    subname: "AdditionalConfigurationItems"
+  },
+  {
+    name: "TicketAdditionalContacts"
+    childOf: "Tickets"
+    subname: "AdditionalContacts"
+  },
+  { name: "TicketAttachments"; childOf: "Tickets"; subname: "Attachments" },
+  { name: "TicketCategories" },
+  {
+    name: "TicketCategoryFieldDefaults"
+    childOf: "TicketCategories"
+    subname: "FieldDefaults"
+  },
+  {
+    name: "TicketChangeRequestApprovals"
+    childOf: "Tickets"
+    subname: "ChangeRequestApprovals"
+  },
+  { name: "TicketCharges"; childOf: "Tickets"; subname: "Charges" },
+  {
+    name: "TicketChecklistItems"
+    childOf: "Tickets"
+    subname: "ChecklistItems"
+  },
+  {
+    name: "TicketChecklistLibraries"
+    childOf: "Tickets"
+    subname: "ChecklistLibraries"
+  },
+  { name: "TicketHistory" },
+  { name: "TicketNotes"; childOf: "Tickets"; subname: "Notes" },
+  {
+    name: "TicketNoteAttachments"
+    childOf: "TicketNotes"
+    subname: "Attachments"
+  },
+  { name: "TicketRmaCredits"; childOf: "Tickets"; subname: "RmaCredits" },
+  {
+    name: "TicketSecondaryResources"
+    childOf: "Tickets"
+    subname: "SecondaryResources"
+  },
+  { name: "TimeEntries" },
+  {
+    name: "TimeEntryAttachments"
+    childOf: "TimeEntries"
+    subname: "Attachments"
+  },
+  {
+    name: "TimeOffRequestsApprove"
+    childOf: "TimeOffRequests"
+    subname: "Approve"
+  },
+  { name: "TimeOffRequests" },
+  {
+    name: "TimeOffRequestsReject"
+    childOf: "TimeOffRequests"
+    subname: "Reject"
+  },
+  { name: "UserDefinedFieldDefinitions" },
+  {
+    name: "UserDefinedFieldListItems"
+    childOf: "UserDefinedFields"
+    subname: "ListItems"
+  }, //note, no parent native
+  // entity
+  { name: "WebhookEventErrorLogs" },
+  { name: "WorkTypeModifiers" },
+  { name: "ZoneInformation" }
 ]
 
 /** The entities and their methods for interacting with the Autotask REST API. */
@@ -453,8 +648,8 @@ type Entities = {
     /**
      * Query available entities.
      *
-     * @example - The return type can be specified by:
-     * client.Companies.query<{ id: number, name: string }>(...)
+     * @example - The return type can be specified by: client.Companies.query<{
+     * id: number, name: string }>(...)
      *
      * @link https://autotask.net/help/DeveloperHelp/Content/APIs/REST/API_Calls/REST_Basic_Query_Calls.htm
      * @link https://autotask.net/help/DeveloperHelp/Content/APIs/REST/API_Calls/REST_Advanced_Query_Features.htm
@@ -462,8 +657,8 @@ type Entities = {
     query: T["name"] extends ModulesEntity
       ? <R extends Entity = Entity>() => Promise<QueryResponse<R>>
       : <R extends Entity = Entity>(
-        query: QueryInput<R>
-      ) => Promise<QueryResponse<R>>
+          query: QueryInput<R>
+        ) => Promise<QueryResponse<R>>
     /**
      * Count available entities.
      *
@@ -473,8 +668,8 @@ type Entities = {
     /**
      * Get a specific entity.
      *
-     * @example - The return type can be specified by:
-     * client.Companies.query<{ id: number, name: string }>(...)
+     * @example - The return type can be specified by: client.Companies.query<{
+     * id: number, name: string }>(...)
      *
      * @link https://autotask.net/help/DeveloperHelp/Content/APIs/REST/API_Calls/REST_Basic_Query_Calls.htm
      */
@@ -482,26 +677,23 @@ type Entities = {
       ? <R extends Entity = Entity>() => Promise<GetResponse<R>>
       : T["name"] extends AttachmentEntity
         ? <R extends Entity = Entity>(
-          parentId: number,
-          id: number
-        ) => Promise<GetResponse<R>>
+            parentId: number,
+            id: number
+          ) => Promise<GetResponse<R>>
         : <R extends Entity = Entity>(id: number) => Promise<GetResponse<R>>
     /**
-     * Update a specific entity. Fields omitted from the payload will **not**
-     * be cleared in Autotask.
+     * Update a specific entity. Fields omitted from the payload will **not** be
+     * cleared in Autotask.
      *
      * @link https://autotask.net/help/DeveloperHelp/Content/APIs/REST/API_Calls/REST_Updating_Data_PATCH.htm
      */
     update: T extends { childOf: string }
       ? (
-        parentId: number,
-        toSave: Entity,
-        opts?: RequestOptions
-      ) => Promise<UpdateResponse>
-      : (
-        toSave: Entity,
-        opts?: RequestOptions
-      ) => Promise<UpdateResponse>
+          parentId: number,
+          toSave: Entity,
+          opts?: RequestOptions
+        ) => Promise<UpdateResponse>
+      : (toSave: Entity, opts?: RequestOptions) => Promise<UpdateResponse>
     /**
      * Create a new entity.
      *
@@ -509,41 +701,32 @@ type Entities = {
      */
     create: T extends { childOf: string }
       ? (
-        parentId: number,
-        toSave: Entity,
-        opts?: RequestOptions
-      ) => Promise<CreateResponse>
-      : (
-        toSave: Entity,
-        opts?: RequestOptions
-      ) => Promise<CreateResponse>
+          parentId: number,
+          toSave: Entity,
+          opts?: RequestOptions
+        ) => Promise<CreateResponse>
+      : (toSave: Entity, opts?: RequestOptions) => Promise<CreateResponse>
     /**
      * Delete a specific entity.
      *
      * @link https://autotask.net/help/DeveloperHelp/Content/APIs/REST/API_Calls/REST_Delete_Operation.htm
      */
     delete: T extends { childOf: string }
-      ? (
-        parentId: number,
-        id: number
-      ) => Promise<DeleteResponse>
+      ? (parentId: number, id: number) => Promise<DeleteResponse>
       : (id: number) => Promise<DeleteResponse>
     /**
-     * Replace an entity. Fields omitted from the payload **will** be cleared
-     * in Autotask.
+     * Replace an entity. Fields omitted from the payload **will** be cleared in
+     * Autotask.
      *
      * @link https://autotask.net/help/DeveloperHelp/Content/APIs/REST/API_Calls/REST_Updating_Data_PUT.htm
      */
     replace: T extends { childOf: string }
       ? (
-        parentId: number,
-        toSave: Entity,
-        opts?: RequestOptions
-      ) => Promise<ReplaceResponse>
-      : (
-        toSave: Entity,
-        opts?: RequestOptions
-      ) => Promise<ReplaceResponse>
+          parentId: number,
+          toSave: Entity,
+          opts?: RequestOptions
+        ) => Promise<ReplaceResponse>
+      : (toSave: Entity, opts?: RequestOptions) => Promise<ReplaceResponse>
     /**
      * Get info about the entity.
      *
@@ -581,9 +764,9 @@ declare class AutotaskRestApi {
   readonly version: string
 
   readonly zoneInfo: null | GetResponse<{
-    zoneName: string,
-    url: string,
-    webUrl: string,
+    zoneName: string
+    url: string
+    webUrl: string
     ci: number
   }>
   readonly available_entities: AvailableEntities
@@ -598,26 +781,28 @@ declare class AutotaskRestApi {
     }
   )
 
-  /** lookup/query an entity */
+  /** Lookup/query an entity */
   _get(): Promise<JsonObject>
-  /** delete an entity */
+  /** Delete an entity */
   _delete(): Promise<JsonObject>
-  /** sparse update an entity */
+  /** Sparse update an entity */
   _patch(): Promise<JsonObject>
-  /** full update an entity */
+  /** Full update an entity */
   _put(): Promise<JsonObject>
-  /** create an entity */
+  /** Create an entity */
   _post(): Promise<JsonObject>
 
   /**
    * Handles HTTP API calls.
+   *
    * @param method GET, POST, PUT, PATCH or DELETE
-   * @param endpoint beginning with a / appended to the base url
-   * @param query hash of query parameters, if applicable
-   * @param payload to be converted to JSON, if provided
-   * @param opts additional options (typically omitted)
-   * @param opts.omit_credentials omits the credentials on the request.
-   * @param opts.ImpersonationResourceId specifies an Autotask Resource ID to impersonate on a create/update operation
+   * @param endpoint Beginning with a / appended to the base url
+   * @param query Hash of query parameters, if applicable
+   * @param payload To be converted to JSON, if provided
+   * @param opts Additional options (typically omitted)
+   * @param opts.omit_credentials Omits the credentials on the request.
+   * @param opts.ImpersonationResourceId Specifies an Autotask Resource ID to
+   *   impersonate on a create/update operation
    */
   _fetch(
     method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
@@ -628,51 +813,62 @@ declare class AutotaskRestApi {
   ): Promise<JsonObject>
 }
 
-interface AutotaskRestApi extends Entities {
-}
+interface AutotaskRestApi extends Entities {}
 
-export {AutotaskRestApi}
+export { AutotaskRestApi }
 
 /**
- * Extends errors, allow you to parse HTTP status and get details about REST API errors.
+ * Extends errors, allow you to parse HTTP status and get details about REST API
+ * errors.
  */
 export class AutotaskApiError extends Error {
   readonly status: number
   readonly details: JsonObject | string
 
-  constructor(
-    message: string,
-    status: number,
-    details: JsonObject | string
-  )
+  constructor(message: string, status: number, details: JsonObject | string)
 }
 
 interface FilterOperators {
   /** Requires that the field value match the exact criteria provided */
-  eq: "eq",
+  eq: "eq"
   /** Requires that the field value be anything other than the criteria provided */
-  noteq: "noteq",
+  noteq: "noteq"
   /** Requires that the field value be greater than the criteria provided */
-  gt: "gt",
-  /** Requires that the field value be greater than or equal to the criteria provided */
-  gte: "gte",
+  gt: "gt"
+  /**
+   * Requires that the field value be greater than or equal to the criteria
+   * provided
+   */
+  gte: "gte"
   /** Requires that the field value be less than the criteria provided */
-  lt: "lt",
-  /** Requires that the field value be less than or equal to the criteria provided */
-  lte: "lte",
-  /**  Requires that the field value begin with the defined criteria */
-  beginsWith: "beginsWith",
+  lt: "lt"
+  /**
+   * Requires that the field value be less than or equal to the criteria
+   * provided
+   */
+  lte: "lte"
+  /** Requires that the field value begin with the defined criteria */
+  beginsWith: "beginsWith"
   /** Requires that the field value end with the defined criteria */
-  endsWith: "endsWith",
-  /** Allows for the string provided as criteria to match any resource that contains the string in its value */
-  contains: "contains",
-  /**  Enter exist to query for fields in which the data you specify is not null. */
-  exist: "exist",
+  endsWith: "endsWith"
+  /**
+   * Allows for the string provided as criteria to match any resource that
+   * contains the string in its value
+   */
+  contains: "contains"
+  /** Enter exist to query for fields in which the data you specify is not null. */
+  exist: "exist"
   /** Enter notExist to query for fields in which the specified data is null */
-  notExist: "notExist",
-  /** With this value specified, the query will return only the values in the list array that match the field value you specify */
-  in: "in",
-  /** With this value specified, the query will only return the values in the list array that do not match the field value you specify */
+  notExist: "notExist"
+  /**
+   * With this value specified, the query will return only the values in the
+   * list array that match the field value you specify
+   */
+  in: "in"
+  /**
+   * With this value specified, the query will only return the values in the
+   * list array that do not match the field value you specify
+   */
   notIn: "notIn"
 }
 export const FilterOperators: FilterOperators
