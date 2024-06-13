@@ -63,16 +63,16 @@ export type QueryInput<T extends Entity = Entity> = FilterInput & {
 }
 // filter expressions
 type GroupingOperator = "and" | "or"
-type EqualityOperator = ValueOf<Pick<typeof FilterOperators, "eq" | "noteq">>
+type EqualityOperator = ValueOf<Pick<FilterOperators, "eq" | "noteq">>
 type ExistenceOperator = ValueOf<
-  Pick<typeof FilterOperators, "exist" | "notExist">
+  Pick<FilterOperators, "exist" | "notExist">
 >
-type SetOperator = ValueOf<Pick<typeof FilterOperators, "in" | "notIn">>
+type SetOperator = ValueOf<Pick<FilterOperators, "in" | "notIn">>
 type StringOperator = ValueOf<
-  Pick<typeof FilterOperators, "beginsWith" | "endsWith" | "contains">
+  Pick<FilterOperators, "beginsWith" | "endsWith" | "contains">
 >
 type ComparisonOperator = ValueOf<
-  Pick<typeof FilterOperators, "gt" | "gte" | "lt" | "lte">
+  Pick<FilterOperators, "gt" | "gte" | "lt" | "lte">
 >
 type FilterExpression =
   | { op: GroupingOperator; items: FilterExpression[] }
@@ -647,7 +647,7 @@ export class AutotaskApiError extends Error {
   )
 }
 
-export const FilterOperators: {
+export interface FilterOperators {
   /** Requires that the field value match the exact criteria provided */
   eq: "eq",
   /** Requires that the field value be anything other than the criteria provided */
