@@ -1,0 +1,17 @@
+{
+  "include": ["**/*.ts"],
+  "compilerOptions": {
+    "types": ["vitest/globals"],
+    "lib": ["ES2022"],
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+    "target": "ES2022",
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "."
+  }
+}
