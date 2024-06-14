@@ -202,6 +202,46 @@ result = await autotask.Companies.query({
 
 [related Autotask documentation](https://ww3.autotask.net/help/DeveloperHelp/Content/APIs/REST/API_Calls/REST_Advanced_Query_Features.htm)
 
+### queryAll
+
+Query for entities matching a filter expression, returning all results. This method is useful when you need to retrieve
+all entities that match a filter, not just the first 500.
+
+> Note: this method returns an async iterator, so all results won't be loaded in memory at once.
+
+```javascript
+for await (const company of autotask.Companies.queryAll({
+  filter:[
+    {
+      "op": "eq",
+      "field": "CompanyName",
+      "value": "Sirius Cybernetics Corporation "
+    }
+  ]
+})){
+  // Do something with the company.
+}
+```
+
+This method can also be configured to yield pages instead by setting `yieldPages` to `true`.
+
+```javascript
+for await (const page of autotask.Companies.queryAll({
+  filter:[
+    {
+      "op": "eq",
+      "field": "CompanyName",
+      "value": "Sirius Cybernetics Corporation "
+    }
+  ],
+  yieldPages: true
+})){
+  // Do something with the page.
+}
+```
+
+Otherwise, this endpoint behaves the same as the `query` method above.
+
 ### create
 Creates an entity.
 
