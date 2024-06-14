@@ -10,6 +10,8 @@ import {
   FilterOperators,
   GetResponse,
   InfoResponse,
+  QueryAllPageResponse,
+  QueryAllResponse,
   QueryInput,
   QueryResponse,
   RequestOptions,
@@ -561,6 +563,40 @@ describe("entity methods", () => {
 
     it("should disallow parameters for Modules entity", () => {
       expectTypeOf(api.Modules.query).parameters.toEqualTypeOf<[]>()
+    })
+  })
+
+  describe("query all", () => {
+    it("should return query response for untyped item iterator requests", () => {
+      expectTypeOf(
+        api.Companies.queryAll
+        // @ts-expect-error TODO: not sure why this is throwing an error. In
+        //                   manual testing, types work as expected.
+      ).returns.toEqualTypeOf<QueryAllResponse>()
+    })
+
+    it("should return query response for untyped page iterator requests", () => {
+      expectTypeOf(
+        // Explicitly define `Entity` since TypeScript doesn't have a way to
+        // say "use the default" for positional type parameters.
+        api.Companies.queryAll<Entity, true>
+      ).returns.toEqualTypeOf<QueryAllPageResponse>()
+    })
+
+    it("should return typed query response for typed item iterator requests", () => {
+      expectTypeOf(api.Companies.queryAll<Company>).returns.toEqualTypeOf<
+        QueryAllResponse<Company>
+      >()
+    })
+
+    it("should return typed query response for typed page iterator requests", () => {
+      expectTypeOf(api.Companies.queryAll<Company, true>).returns.toEqualTypeOf<
+        QueryAllPageResponse<Company>
+      >()
+    })
+
+    it("should disallow the Modules entity entirely", () => {
+      expectTypeOf(api.Modules.queryAll).toEqualTypeOf<never>()
     })
   })
 

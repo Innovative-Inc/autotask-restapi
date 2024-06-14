@@ -263,6 +263,31 @@ class AutotaskRestApi {
           return await this._post(`/${entity.name}/query`, search);
         },
 
+        async* queryAll(search, yieldPages = false) {
+          if (entity.name === 'Modules') {
+            throw new Error('The `Modules` entity is not supported for this operation. Use the `query` or `get` methods instead.')
+          }
+
+          // Yield first results.
+          let results = await this._post(`/${entity.name}/query`, search);
+          if (yieldPages) {
+            yield results;
+          } else {
+            yield* results.items;
+          }
+
+          // Iterate through subsequent pages.
+          while (results.pageDetails.nextPageUrl) {
+            // Per Autotask documentation, when using `nextPageUrl`, don't change the request method or the body.
+            results = await this._post(results.pageDetails.nextPageUrl, search);
+            if (yieldPages) {
+              yield results;
+            } else {
+              yield* results.items;
+            }
+          }
+        },
+
         count : async (search)=>{
           return await this._post(`/${entity.name}/query/count`, search);
         },
@@ -305,6 +330,9 @@ class AutotaskRestApi {
           return await this._get(`/${entity.name}/entityInformation/userDefinedFields`);
         },
       };
+
+      // Bind `this` to `queryAll` since it's not an arrow function.
+      this[entity.name].queryAll = this[entity.name].queryAll.bind(this);
 
       //Adjust endpoints for child entities.
       if(entity.childOf){
@@ -467,7 +495,8 @@ class AutotaskRestApi {
         if(querystring.startsWith('&')) querystring=`?${querystring.substring(1)}`
       };
 
-      let full_url = `${this.zoneInfo ? this.zoneInfo.url : this.base_url}V${this.version}${endpoint}${querystring}`;
+      // Accommodate passing full URLs for the `queryAll` method.
+      let full_url = endpoint.startsWith('https://') ? endpoint : `${this.zoneInfo ? this.zoneInfo.url : this.base_url}V${this.version}${endpoint}${querystring}`;
       debug(`${method}: ${full_url}`);
       if(payload) verbose(`  sending: ${JSON.stringify(payload)}`);
 
