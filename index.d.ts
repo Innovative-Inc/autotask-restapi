@@ -662,7 +662,7 @@ type Entities = {
      * @link https://autotask.net/help/DeveloperHelp/Content/APIs/REST/API_Calls/REST_Advanced_Query_Features.htm
      */
     query: T["name"] extends ModulesEntity
-      ? <R extends Entity = Entity>() => Promise<QueryResponse<R>>
+      ? () => Promise<{ modules: { key: number; value: boolean }[] }>
       : <R extends Entity = Entity>(
           query: QueryInput<R>
         ) => Promise<QueryResponse<R>>
