@@ -79,13 +79,18 @@ type ComparisonOperator = ValueOf<
 >
 type FilterExpression =
   | { op: GroupingOperator; items: FilterExpression[] }
-  | { op: EqualityOperator; field: string; value: JsonPrimitive }
+  | { op: EqualityOperator; field: string; value: JsonPrimitive; udf?: boolean }
   // string needs to be supported for all comparison operators to allow for
   // datetime string comparisons
-  | { op: ComparisonOperator; field: string; value: string | number }
-  | { op: StringOperator; field: string; value: string }
-  | { op: ExistenceOperator; field: string }
-  | { op: SetOperator; field: string; value: JsonPrimitive[] }
+  | {
+      op: ComparisonOperator
+      field: string
+      value: string | number
+      udf?: boolean
+    }
+  | { op: StringOperator; field: string; value: string; udf?: boolean }
+  | { op: ExistenceOperator; field: string; udf?: boolean }
+  | { op: SetOperator; field: string; value: JsonPrimitive[]; udf?: boolean }
 
 // read and CRUD responses
 export type QueryResponse<T extends Entity = Entity> = {
