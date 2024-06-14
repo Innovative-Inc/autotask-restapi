@@ -240,7 +240,7 @@ for await (const page of autotask.Companies.queryAll({
 }
 ```
 
-Otherwise, this endpoint behaves the same as the `query` method above.
+Otherwise, this method behaves the same as the `query` method above.
 
 ### create
 Creates an entity.
