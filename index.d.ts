@@ -97,6 +97,10 @@ export type QueryResponse<T extends Entity = Entity> = {
     nextPageUrl: null | string
   }
 }
+export type QueryAllResponse<T extends Entity = Entity> =
+  AsyncIterableIterator<T>
+export type QueryAllPageResponse<T extends Entity = Entity> =
+  AsyncIterableIterator<QueryResponse<T>>
 export type CountResponse = { queryCount: number }
 export type GetResponse<T extends Entity = Entity> = { item: T | null }
 export type UpdateResponse = { itemId: number }
@@ -659,6 +663,42 @@ type Entities = {
       : <R extends Entity = Entity>(
           query: QueryInput<R>
         ) => Promise<QueryResponse<R>>
+    /**
+     * Query all available entities for a given query, traversing pagination
+     * where necessary.
+     *
+     * @example The return type can be specified by:
+     *
+     * ```ts
+     * await client.Companies.query<{ id: number, companyName: string }>(...)
+     * ```
+     *
+     * @example Yield each **item** in a query:
+     *
+     * ```ts
+     * for await (const company of client.Companies.queryAll(...)) {
+     *   // do something with the company
+     * }
+     * ```
+     *
+     * @example Yield each **page** in a query:
+     *
+     * ```ts
+     * for await (const page of client.Companies.queryAll(..., true)) {
+     *   // do something with the page of companies
+     * }
+     * ```
+     *
+     * @param yieldPages If true, yields pages of items instead of individual
+     *   items. Defaults to false.
+     * @link https://autotask.net/help/DeveloperHelp/Content/APIs/REST/API_Calls/REST_Advanced_Query_Features.htm
+     */
+    queryAll: T["name"] extends ModulesEntity
+      ? never
+      : <R extends Entity = Entity, Y extends boolean = false>(
+          query: QueryInput<R>,
+          yieldPages?: Y
+        ) => Y extends true ? QueryAllPageResponse<R> : QueryAllResponse<R>
     /**
      * Count available entities.
      *

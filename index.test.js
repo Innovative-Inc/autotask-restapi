@@ -73,6 +73,50 @@ test('can query multiple.', async () => {
   expect(item.companyName).toMatch(/A.*/);
 });
 
+describe('pagination with query all', () => {
+  it('should iterate items by default', async () => {
+    // Use a combination of `MaxRecords` here and `iterations` below to ensure we get more than one page while
+    // drastically improving performance.
+    const func = autotask.Companies.queryAll({
+      filter: [{field: 'id', op: FilterOperators.gt, value: 0}], MaxRecords: 1
+    });
+    const items = [];
+
+    let iterations = 0
+    for await (const item of func) {
+      items.push(item);
+      iterations++
+      if (iterations >= 2) break;
+    }
+
+    expect(items.length).toEqual(2);
+    const item = items[1];
+    expect(item.id).toBeGreaterThan(0);
+  })
+
+  it('should iterate pages if set', async () => {
+    // Use a combination of `MaxRecords` here and `iterations` below to ensure we get more than one page while
+    // drastically improving performance.
+    const func = autotask.Companies.queryAll({
+      filter: [{field: 'id', op: FilterOperators.gt, value: 0}], MaxRecords: 1
+    }, true);
+    const pages = [];
+
+    let iterations = 0
+    for await (const page of func) {
+      pages.push(page);
+      iterations++
+      if (iterations >= 2) break;
+    }
+
+    expect(pages.length).toEqual(2);
+    const page = pages[1];
+    expect(page.items).toBeDefined();
+    const item = page.items[0];
+    expect(item.id).toBeGreaterThan(0);
+  })
+})
+
 let contactIdCreated = null;
 test('can create an entity', async () => {
   let contact = {
