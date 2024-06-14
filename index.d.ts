@@ -80,12 +80,11 @@ type ComparisonOperator = ValueOf<
 type FilterExpression =
   | { op: GroupingOperator; items: FilterExpression[] }
   | { op: EqualityOperator; field: string; value: JsonPrimitive; udf?: boolean }
-  // string needs to be supported for all comparison operators to allow for
-  // datetime string comparisons
   | {
       op: ComparisonOperator
       field: string
-      value: string | number
+      // Strings are allowed for string representations of dates.
+      value: Date | string | number
       udf?: boolean
     }
   | { op: StringOperator; field: string; value: string; udf?: boolean }
