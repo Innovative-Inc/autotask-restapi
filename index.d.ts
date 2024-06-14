@@ -677,7 +677,7 @@ type Entities = {
      * @example The return type can be specified by:
      *
      * ```ts
-     * await client.Companies.query<{ id: number, companyName: string }>(...)
+     * client.Companies.queryAll<{ id: number, companyName: string }>(...)
      * ```
      *
      * @example Yield each **item** in a query:
