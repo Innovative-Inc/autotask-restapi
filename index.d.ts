@@ -652,8 +652,11 @@ type Entities = {
     /**
      * Query available entities.
      *
-     * @example - The return type can be specified by: client.Companies.query<{
-     * id: number, name: string }>(...)
+     * @example - The return type can be specified by:
+     *
+     * ```ts
+     * await client.Companies.query<{ id: number, name: string }>(...)
+     * ```
      *
      * @link https://autotask.net/help/DeveloperHelp/Content/APIs/REST/API_Calls/REST_Basic_Query_Calls.htm
      * @link https://autotask.net/help/DeveloperHelp/Content/APIs/REST/API_Calls/REST_Advanced_Query_Features.htm
