@@ -13,9 +13,19 @@ export type RequestOptions = {
 // Special entities
 type ModulesEntity = "Modules"
 type AttachmentEntity =
+  | "ArticleAttachments"
+  | "CompanyAttachments"
+  | "CompanyNoteAttachments"
   | "ConfigurationItemAttachments"
   | "ConfigurationItemNoteAttachments"
+  | "ContractNoteAttachments"
+  | "DocumentAttachments"
+  | "ExpenseReportAttachments"
   | "OpportunityAttachments"
+  | "ProjectAttachments"
+  | "ProjectNoteAttachments"
+  | "ResourceAttachments"
+  | "SalesOrderAttachments"
   | "TaskAttachments"
   | "TaskNoteAttachments"
   | "TicketAttachments"
@@ -871,4 +881,4 @@ interface FilterOperators {
    */
   notIn: "notIn"
 }
-export const FilterOperators: FilterOperators
+export const FilterOperators: FilterOperators = FilterOperators

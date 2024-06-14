@@ -314,9 +314,19 @@ class AutotaskRestApi {
 
         // Attachment child entities require special handling...
         if([
+          'ArticleAttachments',
+          'CompanyAttachments',
+          'CompanyNoteAttachments',
           'ConfigurationItemAttachments',
           'ConfigurationItemNoteAttachments',
+          'ContractNoteAttachments',
+          'DocumentAttachments',
+          'ExpenseReportAttachments',
           'OpportunityAttachments',
+          'ProjectAttachments',
+          'ProjectNoteAttachments',
+          'ResourceAttachments',
+          'SalesOrderAttachments',
           'TaskAttachments',
           'TaskNoteAttachments',
           'TicketAttachments',
