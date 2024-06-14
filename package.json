@@ -35,6 +35,10 @@
     "require": {
       "types": "./index.d.ts",
       "require": "./index.js"
+    },
+    "import": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
     }
   },
   "dependencies": {
