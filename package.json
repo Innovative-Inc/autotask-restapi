@@ -5,7 +5,7 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "prepublishOnly": "npm run check:attws && npm run check:publint",
+    "prepublishOnly": "npm run check:attw && npm run check:publint",
     "check:attw": "npx --package @arethetypeswrong/cli@latest -- attw --pack",
     "check:publint": "npx --package publint@latest -- publint",
     "format": "prettier --write \"{**/*,*}.{js,ts,jsx,tsx,cjs,mjs,json,yaml,yml,md,css,scss,sass}\"",
