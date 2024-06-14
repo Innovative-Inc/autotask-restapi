@@ -914,4 +914,4 @@ interface FilterOperators {
    */
   notIn: "notIn"
 }
-export const FilterOperators: FilterOperators
+export const FilterOperators: FilterOperators = FilterOperators
