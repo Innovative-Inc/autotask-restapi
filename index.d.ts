@@ -79,13 +79,17 @@ type ComparisonOperator = ValueOf<
 >
 type FilterExpression =
   | { op: GroupingOperator; items: FilterExpression[] }
-  | { op: EqualityOperator; field: string; value: JsonPrimitive }
-  // string needs to be supported for all comparison operators to allow for
-  // datetime string comparisons
-  | { op: ComparisonOperator; field: string; value: string | number }
-  | { op: StringOperator; field: string; value: string }
-  | { op: ExistenceOperator; field: string }
-  | { op: SetOperator; field: string; value: JsonPrimitive[] }
+  | { op: EqualityOperator; field: string; value: JsonPrimitive; udf?: boolean }
+  | {
+      op: ComparisonOperator
+      field: string
+      // Strings are allowed for string representations of dates.
+      value: Date | string | number
+      udf?: boolean
+    }
+  | { op: StringOperator; field: string; value: string; udf?: boolean }
+  | { op: ExistenceOperator; field: string; udf?: boolean }
+  | { op: SetOperator; field: string; value: JsonPrimitive[]; udf?: boolean }
 
 // read and CRUD responses
 export type QueryResponse<T extends Entity = Entity> = {
@@ -652,14 +656,17 @@ type Entities = {
     /**
      * Query available entities.
      *
-     * @example - The return type can be specified by: client.Companies.query<{
-     * id: number, name: string }>(...)
+     * @example - The return type can be specified by:
+     *
+     * ```ts
+     * await client.Companies.query<{ id: number, name: string }>(...)
+     * ```
      *
      * @link https://autotask.net/help/DeveloperHelp/Content/APIs/REST/API_Calls/REST_Basic_Query_Calls.htm
      * @link https://autotask.net/help/DeveloperHelp/Content/APIs/REST/API_Calls/REST_Advanced_Query_Features.htm
      */
     query: T["name"] extends ModulesEntity
-      ? <R extends Entity = Entity>() => Promise<QueryResponse<R>>
+      ? () => Promise<{ modules: { key: number; value: boolean }[] }>
       : <R extends Entity = Entity>(
           query: QueryInput<R>
         ) => Promise<QueryResponse<R>>
@@ -670,7 +677,7 @@ type Entities = {
      * @example The return type can be specified by:
      *
      * ```ts
-     * await client.Companies.query<{ id: number, companyName: string }>(...)
+     * client.Companies.queryAll<{ id: number, companyName: string }>(...)
      * ```
      *
      * @example Yield each **item** in a query:
@@ -911,4 +918,4 @@ interface FilterOperators {
    */
   notIn: "notIn"
 }
-export const FilterOperators: FilterOperators
+export const FilterOperators: FilterOperators = FilterOperators
