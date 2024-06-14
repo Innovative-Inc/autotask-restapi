@@ -34,12 +34,11 @@ class AutotaskRestApi {
    * @param {string} options.version Autotask REST API decimal version (e.g. 1.0). (Default 1.0);
    * @param {object?} options.retry Retry options for the connector.
    * @param {boolean?} options.retry.enabled If true, will retry the request as configured. (Default true)
-   * @param {number?} options.retry.attempts If retry_on_error is true, the number of times to retry the request.
-   *  (Default 10)
-   * @param {number?} options.retry.delay If retry_on_error is true, the number of milliseconds to wait before trying
-   *  again. (Default 1000)
-   * @param {number?} options.retry.delay_factor If retry_on_error is true, the factor by which to increase the delay
-   *  between retries. (Default 2)
+   * @param {number?} options.retry.attempts If enabled, the number of times to retry the request. (Default 10)
+   * @param {number?} options.retry.delay If enabled, the number of milliseconds to wait before trying again.
+   *  (Default 1000)
+   * @param {number?} options.retry.delay_factor If enabled, the factor by which to increase the delay between retries.
+   *  (Default 2)
    */
   constructor(user, secret, code, options){
     if(!user)throw new Error(`An API user is required.`);
