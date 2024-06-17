@@ -1,0 +1,42 @@
+name: "Generate entity types"
+on:
+  schedule:
+    # Every day at 8:40 AM UTC (4:40 AM EST)
+    - cron: "40 8 * * *"
+  workflow_dispatch:
+
+env:
+  MESSAGE: "chore(types): generate entity types from OpenAPI spec"
+  DESCRIPTION: "This PR was automatically generated due to changes to entities in the [OpenAPI spec](https://insight.axessmps.com/PortalAPI/swagger-ui/index.html)."
+
+jobs:
+  generate-entity-types:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: "Install Node.js"
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "npm"
+
+      - name: "Install dependencies"
+        run: npm ci
+
+      - name: "Test"
+        run: npm run generate:types
+
+      - name: "Create pull request"
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: "chore/generate-entity-types"
+          delete-branch: true
+          commit-message: ${{ env.MESSAGE }}
+          push-to-fork: ${{ vars.GITHUB_ACTION_REPOSITORY }}
+          title: ${{ env.MESSAGE }}
+          body: DESCRIPTION
