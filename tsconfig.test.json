@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // Required since Vite attempts to import modules not available in Node.js.
+    "skipLibCheck": true
+  }
+}
