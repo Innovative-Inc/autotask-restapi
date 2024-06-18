@@ -39,4 +39,4 @@ jobs:
           commit-message: ${{ env.MESSAGE }}
           push-to-fork: ${{ vars.GITHUB_ACTION_REPOSITORY }}
           title: ${{ env.MESSAGE }}
-          body: DESCRIPTION
+          body: ${{ env.DESCRIPTION }}
