@@ -1,4 +1,4 @@
-name: "Generate entity types"
+name: "Update entity types"
 on:
   schedule:
     # Every day at 8:40 AM UTC (4:40 AM EST)
@@ -6,11 +6,11 @@ on:
   workflow_dispatch:
 
 env:
-  MESSAGE: "chore(types): generate entity types from OpenAPI spec"
+  MESSAGE: "chore(types): update entity types from OpenAPI spec"
   DESCRIPTION: "This PR was automatically generated due to changes to entities in the [OpenAPI spec](https://insight.axessmps.com/PortalAPI/swagger-ui/index.html)."
 
 jobs:
-  generate-entity-types:
+  update-entity-types:
     runs-on: ubuntu-latest
 
     permissions:
