@@ -27,31 +27,36 @@ export type QueryInput<T extends Entity> = FilterInput<T> & {
  * Build an entity type using the base entity (T) and a list of fields (F). Any
  * fields not present in the base entity will be added as user-defined fields.
  */
-type EntityFromFilter<T extends Entity, Q extends QueryInput<T>> = Q extends {
-  IncludeFields: string[]
-}
-  ? {
-      [K in Extract<
-        ArrayValues<Q["IncludeFields"]>,
-        keyof T
-      >]?: K extends keyof T ? T[K] : never
-    } & (HasUdf<T> extends true
-      ? {
-          userDefinedFields?: UserDefinedField<
-            Exclude<ArrayValues<Q["IncludeFields"]>, keyof T>
-          >[]
-        }
-      : {})
-  : T
+type EntityFromFilter<T extends Entity, Q extends QueryInput<T>> =
+  // If `IncludeFields` is set, only include those fields.
+  Q extends { IncludeFields: string[] }
+    ? // Include built-in fields
+      {
+        [K in Extract<
+          ArrayValues<Q["IncludeFields"]>,
+          keyof T
+        >]?: K extends keyof T ? T[K] : never
+      } & (HasUdf<T> extends true // Include user-defined fields, if the original entity supported them.
+        ? {
+            userDefinedFields?: UserDefinedField<
+              Exclude<ArrayValues<Q["IncludeFields"]>, keyof T>
+            >[]
+          }
+        : {})
+    : // Otherwise, include all on the base entity.
+      T
 
 /** Build a result from an entity. */
 type ResultFromEntity<T extends Entity> = Simplify<
+  // Require the ID field if the entity has one.
   (T extends { id?: any } ? Required<Pick<T, "id">> : {}) &
+    // Add user-defined fields, if applicable.
     (T extends { userDefinedFields?: any[] }
       ? // UDF property is always included even if `IncludeFields` is set to only
         // built-in fields.
         Required<Pick<T, "userDefinedFields">>
       : {}) &
+    // Make all optional fields nullable instead.
     Omit<T, OptionalKeysOf<T> | "userDefinedFields" | "id"> & {
       [Key in keyof Pick<T, OptionalKeysOf<T>>]-?: T[Key] | null
     }

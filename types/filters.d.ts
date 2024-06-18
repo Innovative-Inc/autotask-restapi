@@ -9,10 +9,13 @@ export type HasUdf<T extends Entity> = T extends { userDefinedFields?: any[] }
   : false
 /** Type guard to determine if a field is a user-defined field. */
 type IsUdf<T extends Entity, F extends string> =
+  // Use `StringKeyOf` here to prevent `string` comparison in other contexts.
   F extends StringKeyOf<T> ? false : true
 
 /** Combine normal and user-defined fields (if applicable) into a flat union. */
 export type AllFields<T extends Entity> =
+  // Use `LiteralUnion` to allow for IDE auto-completion of existing fields
+  // while also allowing any string for user-defined fields.
   HasUdf<T> extends true ? LiteralUnion<StringKeyOf<T>, string> : StringKeyOf<T>
 
 /** Operator to group filter expressions together. */
@@ -44,7 +47,9 @@ type FilterExpression<
   T extends Entity,
   F extends AllFields<T> = AllFields<T>
 > = (
-  | { op: GroupingOperator; items: FilterExpression<T>[] }
+  | // Intentionally don't pass `F`, so each `FilterExpression` has its own
+  // `F` type to determine if `udf` is required.
+  { op: GroupingOperator; items: FilterExpression<T>[] }
   | { op: EqualityOperator; field: F; value: JsonPrimitive }
   // Strings are allowed for string representations of dates.
   | { op: ComparisonOperator; field: F; value: Date | string | number }

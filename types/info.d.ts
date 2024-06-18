@@ -34,14 +34,14 @@ type SharedPicklistValues = {
 // `NullishValue` generic type exists because built-in fields and UDFs have
 // different values when "null"
 type PicklistFieldInfo<NullishValue> =
-  // normal picklist
+  // Normal picklist
   | {
       picklistParentValueField: NullishValue
-      // however, it seems that both built-in fields and UDFs have the same
-      // `parentValue` value when "null"
+      // However, it seems that both built-in fields and UDFs have the same
+      // `parentValue` value when "null".
       picklistValues: ({ parentValue: "" } & SharedPicklistValues)[]
     }
-  // child picklist
+  // Child picklist
   | {
       picklistParentValueField: string
       picklistValues: ({ parentValue: string } & SharedPicklistValues)[]
@@ -70,7 +70,7 @@ export type FieldInfo = {
   isQueryable: boolean
   isSupportedWebhookField: boolean
 } & (
-  | // normal, non-string field
+  | // Normal, non-string field
   ({
       dataType:
         | "boolean"
@@ -84,7 +84,7 @@ export type FieldInfo = {
     } & NonStringFieldInfo &
       NonPicklistFieldInfo<""> &
       NonReferenceFieldInfo<"">)
-  // normal string field
+  // Normal string field
   | ({
       dataType: "string"
       isPicklist: false
@@ -92,7 +92,7 @@ export type FieldInfo = {
     } & StringFieldInfo &
       NonPicklistFieldInfo<""> &
       NonReferenceFieldInfo<"">)
-  // picklist field
+  // Picklist field
   | ({
       dataType: "integer"
       isPicklist: true
@@ -100,7 +100,7 @@ export type FieldInfo = {
     } & NonStringFieldInfo &
       PicklistFieldInfo<""> &
       NonReferenceFieldInfo<"">)
-  // reference field
+  // Reference field
   | ({
       dataType: "integer"
       isPicklist: false
@@ -131,7 +131,7 @@ export type UdfFieldInfo = {
   defaultValue: string
   isSupportedWebhookField: boolean
 } & (
-  | // normal, non-string field
+  | // Normal, non-string field
   ({
       type: "double" | "datetime"
       isPicklist: false
@@ -139,7 +139,7 @@ export type UdfFieldInfo = {
     } & NonStringUdfFieldInfo &
       NonPicklistFieldInfo<null> &
       NonReferenceFieldInfo<null>)
-  // normal string field
+  // Normal string field
   | ({
       type: "string"
       isPicklist: false
@@ -147,7 +147,7 @@ export type UdfFieldInfo = {
     } & StringUdfFieldInfo &
       NonPicklistFieldInfo<null> &
       NonReferenceFieldInfo<null>)
-  // picklist field
+  // Picklist field
   | ({
       type: "integer"
       isPicklist: true
@@ -155,7 +155,7 @@ export type UdfFieldInfo = {
     } & NonStringUdfFieldInfo &
       PicklistFieldInfo<null> &
       NonReferenceFieldInfo<null>)
-  // reference field
+  // Reference field
   | ({
       type: "integer"
       isPicklist: false
