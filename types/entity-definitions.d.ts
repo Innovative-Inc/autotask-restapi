@@ -13,6 +13,9 @@ type TimeOffRequestApprove = {
  *
  * If the entity is a child of another entity, it must have `childOf` and
  * `subname` properties.
+ *
+ * If the entity is a special entity that doesn't follow the normal query
+ * response structure, it must have the `special` property.
  */
 export type AvailableEntities = [
   {
@@ -674,7 +677,6 @@ export type AvailableEntities = [
   }
 ]
 
-// Special entities
 /**
  * Type guard to determine if an entity is a special entity that doesn't follow
  * the normal query response structure.

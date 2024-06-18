@@ -20,7 +20,8 @@ export type InfoResponse = {
     supportsWebhookCallouts: boolean
   }
 }
-// shared field and UDF info response utils
+
+/** Field info properties shared among all field types. */
 type SharedPicklistValues = {
   value: string
   label: string
@@ -29,6 +30,7 @@ type SharedPicklistValues = {
   isActive: boolean
   isSystem: boolean
 }
+/** Field info properties exclusive to picklist fields. */
 // `NullishValue` generic type exists because built-in fields and UDFs have
 // different values when "null"
 type PicklistFieldInfo<NullishValue> =
@@ -44,17 +46,23 @@ type PicklistFieldInfo<NullishValue> =
       picklistParentValueField: string
       picklistValues: ({ parentValue: string } & SharedPicklistValues)[]
     }
+/** Field info properties exclusive to non-picklist fields. */
 type NonPicklistFieldInfo<NullishValue> = {
   picklistValues: null
   picklistParentValueField: NullishValue
 }
+/** Field info properties exclusive to reference fields. */
 type ReferenceFieldInfo = { referenceEntityType: string }
+/** Field info properties exclusive to non-reference fields. */
 type NonReferenceFieldInfo<NullishValue> = {
   referenceEntityType: NullishValue
 }
-// field info response
+/** Field info properties exclusive to string fields. */
 type StringFieldInfo = { maxLength: number }
+/** Field info properties exclusive to non-string fields. */
 type NonStringFieldInfo = { maxLength: 0 }
+
+/** Info regarding an entity field. */
 export type FieldInfo = {
   name: string
   isRequired: boolean
@@ -101,10 +109,18 @@ export type FieldInfo = {
       NonPicklistFieldInfo<""> &
       ReferenceFieldInfo)
 )
+/**
+ * Info regarding the queried entity's fields.
+ *
+ * @link https://autotask.net/help/DeveloperHelp/Content/APIs/REST/API_Calls/REST_EntityInformationCall.htm
+ */
 export type FieldInfoResponse = { fields: FieldInfo[] }
-// UDF field info response
+
+/** User-defined field info properties exclusive to string fields. */
 type StringUdfFieldInfo = { length: number }
+/** User-defined field info properties exclusive to non-string fields. */
 type NonStringUdfFieldInfo = { length: 0 }
+/** Info regarding an entity user-defined field. */
 export type UdfFieldInfo = {
   name: string
   label: string
@@ -148,4 +164,9 @@ export type UdfFieldInfo = {
       NonPicklistFieldInfo<null> &
       ReferenceFieldInfo)
 )
+/**
+ * Info regarding the queried entity's user-defined fields.
+ *
+ * @link https://autotask.net/help/DeveloperHelp/Content/APIs/REST/API_Calls/REST_UserDefinedFieldInformationCall.htm
+ */
 export type UdfInfoResponse = { fields: UdfFieldInfo[] }

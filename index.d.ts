@@ -5,8 +5,11 @@ import { ZoneInformationResult } from "./vendor/openapi-entity-types"
 
 export * from "./types"
 
+/** Options for a request to the Autotask REST API. */
 export type RequestOptions = {
+  /** Do not include the credentials in the request. */
   omit_credentials?: boolean
+  /** Impersonate a specific resource ID for the request. */
   ImpersonationResourceId?: string
 }
 

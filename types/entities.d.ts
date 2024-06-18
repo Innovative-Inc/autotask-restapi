@@ -18,6 +18,7 @@ import {
   QueryResponse
 } from "./query"
 
+/** The entities currently available in the Autotask REST API client. */
 export type Entity = ArrayValues<AvailableEntities>["type"]
 
 /** The entities and their methods for interacting with the Autotask REST API. */
