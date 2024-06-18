@@ -1,13 +1,12 @@
 import { assertType, describe, expectTypeOf } from "vitest"
 
-import { AutotaskRestApi } from "../index"
+import { AutotaskRestApi, RequestOptions } from "../index"
 import {
   ModuleAccessResult,
   ThresholdStatusResult,
   ZoneInformationResult
 } from "../vendor/openapi-entity-types"
 import { MutateResponse } from "./crud"
-import { RequestOptions } from "./entities"
 import { FieldInfoResponse, InfoResponse, UdfInfoResponse } from "./info"
 import { CountResponse } from "./query"
 

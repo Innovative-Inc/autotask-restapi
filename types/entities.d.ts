@@ -1,5 +1,6 @@
 import { ArrayValues } from "type-fest"
 
+import { RequestOptions } from "../index"
 import { CreateInput, EditInput, MutateResponse } from "./crud"
 import {
   AttachmentEntity,
@@ -18,11 +19,6 @@ import {
 } from "./query"
 
 export type Entity = ArrayValues<AvailableEntities>["type"]
-
-export type RequestOptions = {
-  omit_credentials?: boolean
-  ImpersonationResourceId?: string
-}
 
 /** The entities and their methods for interacting with the Autotask REST API. */
 export type EntityMethods = {

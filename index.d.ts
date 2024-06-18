@@ -1,9 +1,14 @@
 import type { JsonObject } from "type-fest"
 
-import { AvailableEntities, EntityMethods, RequestOptions } from "./types"
+import { AvailableEntities, EntityMethods } from "./types"
 import { ZoneInformationResult } from "./vendor/openapi-entity-types"
 
 export * from "./types"
+
+export type RequestOptions = {
+  omit_credentials?: boolean
+  ImpersonationResourceId?: string
+}
 
 /**
  * Autotask REST API NodeJS connector.
