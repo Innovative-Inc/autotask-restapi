@@ -1,10 +1,4 @@
-import {
-  ArrayValues,
-  EmptyObject,
-  OptionalKeysOf,
-  Simplify,
-  SimplifyDeep
-} from "type-fest"
+import { ArrayValues, OptionalKeysOf, Simplify, SimplifyDeep } from "type-fest"
 
 import { UserDefinedField } from "../vendor/openapi-entity-types"
 import { Entity } from "./entities"
