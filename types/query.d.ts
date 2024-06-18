@@ -33,10 +33,9 @@ export type QueryInput<T extends Entity> = FilterInput<T> & {
  * Build an entity type using the base entity (T) and a list of fields (F). Any
  * fields not present in the base entity will be added as user-defined fields.
  */
-export type EntityFromFilter<
-  T extends Entity,
-  Q extends QueryInput<T>
-> = Q extends { IncludeFields: string[] }
+type EntityFromFilter<T extends Entity, Q extends QueryInput<T>> = Q extends {
+  IncludeFields: string[]
+}
   ? {
       [K in Extract<
         ArrayValues<Q["IncludeFields"]>,
@@ -51,8 +50,8 @@ export type EntityFromFilter<
       : {})
   : T
 
-export type ResultFromEntity<T extends Entity> = Simplify<
 /** Build a result from an entity. */
+type ResultFromEntity<T extends Entity> = Simplify<
   (T extends { id?: any } ? Required<Pick<T, "id">> : {}) &
     (T extends { userDefinedFields?: any[] }
       ? // UDF property is always included even if `IncludeFields` is set to only
@@ -64,8 +63,8 @@ export type ResultFromEntity<T extends Entity> = Simplify<
     }
 >
 
-export type ResultFromFilter<
 /** Build a result from a filter. */
+type ResultFromFilter<
   T extends Entity,
   Q extends QueryInput<T>
 > = ResultFromEntity<EntityFromFilter<T, Q>>
