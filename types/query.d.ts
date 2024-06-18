@@ -93,7 +93,7 @@ export type QueryResponse<
 export type QueryAllResponse<
   T extends Entity,
   Q extends QueryInput<T>
-> = AsyncIterableIterator<ResultFromFilter<T, Q>>
+> = AsyncIterableIterator<SimplifyDeep<ResultFromFilter<T, Q>>>
 /**
  * The response from a query that iterates all pages.
  *
@@ -102,7 +102,7 @@ export type QueryAllResponse<
 export type QueryAllPageResponse<
   T extends Entity,
   Q extends QueryInput<T>
-> = AsyncIterableIterator<QueryResponse<T, Q>>
+> = AsyncIterableIterator<SimplifyDeep<QueryResponse<T, Q>>>
 /**
  * The response from a count operation.
  *
@@ -114,6 +114,6 @@ export type CountResponse = { queryCount: number }
  *
  * @link https://autotask.net/help/DeveloperHelp/Content/APIs/REST/API_Calls/REST_Basic_Query_Calls.htm
  */
-export type GetResponse<T extends Entity> = {
+export type GetResponse<T extends Entity> = SimplifyDeep<{
   item: ResultFromEntity<T> | null
-}
+}>
