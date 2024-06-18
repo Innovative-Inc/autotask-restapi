@@ -6,7 +6,7 @@ import {
   ThresholdStatusResult,
   ZoneInformationResult
 } from "../vendor/openapi-entity-types"
-import { CreateResponse, DeleteResponse, UpdateResponse } from "./crud"
+import { MutateResponse } from "./crud"
 import { RequestOptions } from "./entities"
 import { FieldInfoResponse, InfoResponse, UdfInfoResponse } from "./info"
 import { CountResponse } from "./query"
@@ -274,7 +274,7 @@ describe("update", () => {
       parentId: number,
       toSave: { id: number },
       opts?: RequestOptions
-    ) => Promise<UpdateResponse>
+    ) => Promise<MutateResponse>
 
     assertType<Expect>(api.ConfigurationItemAttachments.update)
   })
@@ -283,18 +283,18 @@ describe("update", () => {
     type Expect = (
       toSave: { id: number },
       opts?: RequestOptions
-    ) => Promise<UpdateResponse>
+    ) => Promise<MutateResponse>
 
     assertType<Expect>(api.Companies.update)
   })
 
   it("should return the update response", () => {
-    assertType<Promise<UpdateResponse>>(api.Companies.update({ id: 0 }))
+    assertType<Promise<MutateResponse>>(api.Companies.update({ id: 0 }))
   })
 
   it("should require the id field", () => {
-    assertType<Promise<UpdateResponse>>(api.Companies.update({ id: 0 }))
-    assertType<Promise<UpdateResponse>>(
+    assertType<Promise<MutateResponse>>(api.Companies.update({ id: 0 }))
+    assertType<Promise<MutateResponse>>(
       // @ts-expect-error ID is required.
       api.Companies.update({ companyName: "test" })
     )
@@ -307,23 +307,23 @@ describe("create", () => {
       parentId: number,
       toSave: {},
       opts?: RequestOptions
-    ) => Promise<CreateResponse>
+    ) => Promise<MutateResponse>
 
     assertType<Expect>(api.ConfigurationItemAttachments.create)
   })
 
   it("should require one parameter for normal entities", () => {
-    type Expect = (toSave: {}, opts?: RequestOptions) => Promise<CreateResponse>
+    type Expect = (toSave: {}, opts?: RequestOptions) => Promise<MutateResponse>
 
     assertType<Expect>(api.Companies.create)
   })
 
   it("should return the create response", () => {
-    assertType<Promise<CreateResponse>>(api.Companies.create({}))
+    assertType<Promise<MutateResponse>>(api.Companies.create({}))
   })
 
   it("should not allow the id field", () => {
-    assertType<Promise<CreateResponse>>(
+    assertType<Promise<MutateResponse>>(
       api.Companies.create({ companyName: "test" })
     )
     // @ts-expect-error ID is not allowed.
@@ -333,17 +333,17 @@ describe("create", () => {
 
 describe("delete", () => {
   it("should require two parameters for child entities", () => {
-    assertType<(parentId: number, id: number) => Promise<DeleteResponse>>(
+    assertType<(parentId: number, id: number) => Promise<MutateResponse>>(
       api.ConfigurationItemAttachments.delete
     )
   })
 
   it("should require one parameter for normal entities", () => {
-    assertType<(id: number) => Promise<DeleteResponse>>(api.Companies.delete)
+    assertType<(id: number) => Promise<MutateResponse>>(api.Companies.delete)
   })
 
   it("should return the delete response", () => {
-    assertType<Promise<DeleteResponse>>(api.Companies.delete(0))
+    assertType<Promise<MutateResponse>>(api.Companies.delete(0))
   })
 })
 
@@ -353,7 +353,7 @@ describe("replace", () => {
       parentId: number,
       toSave: { id: number },
       opts?: RequestOptions
-    ) => Promise<UpdateResponse>
+    ) => Promise<MutateResponse>
 
     assertType<Expect>(api.ConfigurationItemAttachments.replace)
   })
@@ -362,18 +362,18 @@ describe("replace", () => {
     type Expect = (
       toSave: { id: number },
       opts?: RequestOptions
-    ) => Promise<UpdateResponse>
+    ) => Promise<MutateResponse>
 
     assertType<Expect>(api.Companies.replace)
   })
 
   it("should return the update response", () => {
-    assertType<Promise<UpdateResponse>>(api.Companies.replace({ id: 0 }))
+    assertType<Promise<MutateResponse>>(api.Companies.replace({ id: 0 }))
   })
 
   it("should require the id field", () => {
-    assertType<Promise<UpdateResponse>>(api.Companies.replace({ id: 0 }))
-    assertType<Promise<UpdateResponse>>(
+    assertType<Promise<MutateResponse>>(api.Companies.replace({ id: 0 }))
+    assertType<Promise<MutateResponse>>(
       // @ts-expect-error ID is required.
       api.Companies.replace({ companyName: "test" })
     )

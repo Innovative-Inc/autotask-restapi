@@ -10,7 +10,3 @@ export type CreateInput<T extends Entity> = {
 }
 
 export type MutateResponse = { itemId: number }
-export type UpdateResponse = { itemId: number }
-export type CreateResponse = { itemId: number }
-export type DeleteResponse = { itemId: number }
-export type ReplaceResponse = { itemId: number }

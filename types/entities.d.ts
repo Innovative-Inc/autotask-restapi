@@ -1,13 +1,6 @@
 import { ArrayValues } from "type-fest"
 
-import {
-  CreateInput,
-  CreateResponse,
-  DeleteResponse,
-  EditInput,
-  ReplaceResponse,
-  UpdateResponse
-} from "./crud"
+import { CreateInput, EditInput, MutateResponse } from "./crud"
 import {
   AttachmentEntity,
   AvailableEntities,
@@ -131,11 +124,11 @@ export type EntityMethods = {
           parentId: number,
           toSave: EditInput<T["type"]>,
           opts?: RequestOptions
-        ) => Promise<UpdateResponse>
+        ) => Promise<MutateResponse>
       : (
           toSave: EditInput<T["type"]>,
           opts?: RequestOptions
-        ) => Promise<UpdateResponse>
+        ) => Promise<MutateResponse>
     /**
      * Create a new entity.
      *
@@ -146,19 +139,19 @@ export type EntityMethods = {
           parentId: number,
           toSave: CreateInput<T["type"]>,
           opts?: RequestOptions
-        ) => Promise<CreateResponse>
+        ) => Promise<MutateResponse>
       : (
           toSave: CreateInput<T["type"]>,
           opts?: RequestOptions
-        ) => Promise<CreateResponse>
+        ) => Promise<MutateResponse>
     /**
      * Delete a specific entity.
      *
      * @link https://autotask.net/help/DeveloperHelp/Content/APIs/REST/API_Calls/REST_Delete_Operation.htm
      */
     delete: T extends { childOf: string }
-      ? (parentId: number, id: number) => Promise<DeleteResponse>
-      : (id: number) => Promise<DeleteResponse>
+      ? (parentId: number, id: number) => Promise<MutateResponse>
+      : (id: number) => Promise<MutateResponse>
     /**
      * Replace an entity. Fields omitted from the payload **will** be cleared in
      * Autotask.
@@ -170,11 +163,11 @@ export type EntityMethods = {
           parentId: number,
           toSave: EditInput<T["type"]>,
           opts?: RequestOptions
-        ) => Promise<ReplaceResponse>
+        ) => Promise<MutateResponse>
       : (
           toSave: EditInput<T["type"]>,
           opts?: RequestOptions
-        ) => Promise<ReplaceResponse>
+        ) => Promise<MutateResponse>
     /**
      * Get info about the entity.
      *
