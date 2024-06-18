@@ -103,13 +103,8 @@ export type EntityMethods = {
       ? // Don't wrap with a get response.
         () => Promise<T["type"]>
       : T["name"] extends AttachmentEntity
-        ? <R extends T["type"] = T["type"]>(
-            parentId: number,
-            id: number
-          ) => Promise<GetResponse<R>>
-        : <R extends T["type"] = T["type"]>(
-            id: number
-          ) => Promise<GetResponse<R>>
+        ? (parentId: number, id: number) => Promise<GetResponse<T["type"]>>
+        : (id: number) => Promise<GetResponse<T["type"]>>
     /**
      * Update a specific entity. Fields omitted from the payload will **not** be
      * cleared in Autotask.
