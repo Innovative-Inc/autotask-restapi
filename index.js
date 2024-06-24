@@ -19,7 +19,7 @@ const https = require('https');
 const crypto = require('crypto');
 
 /**
- * Autotask REST API NodeJS connector.
+ * Autotask REST API Node.js connector.
  * 
  * This class provides a simple interface to the Autotask REST API. 
  */
@@ -27,7 +27,7 @@ class AutotaskRestApi {
   /**
    * Create an Autotask Rest API connector instance.
    * @param {string} user Autotask API user identifier (required)
-   * @param {string} secret Autotas API secret associated with the user (required)
+   * @param {string} secret Autotask API secret associated with the user (required)
    * @param {string} code Autotask API integration tracking code (required)
    * @param {object} options
    * @param {string} options.base_url the REST API base url. (Default https://webservices2.autotask.net/ATServicesRest/)
