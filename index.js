@@ -19,7 +19,7 @@ const https = require('https');
 const crypto = require('crypto');
 
 /**
- * Autotask REST API NodeJS connector.
+ * Autotask REST API Node.js connector.
  * 
  * This class provides a simple interface to the Autotask REST API. 
  */
@@ -27,7 +27,7 @@ class AutotaskRestApi {
   /**
    * Create an Autotask Rest API connector instance.
    * @param {string} user Autotask API user identifier (required)
-   * @param {string} secret Autotas API secret associated with the user (required)
+   * @param {string} secret Autotask API secret associated with the user (required)
    * @param {string} code Autotask API integration tracking code (required)
    * @param {object} options
    * @param {string} options.base_url the REST API base url. (Default https://webservices2.autotask.net/ATServicesRest/)
@@ -99,7 +99,7 @@ class AutotaskRestApi {
       {name:'CompanyWebhooks'},
       {name:'CompanyWebhookExcludedResources', childOf: 'CompanyWebhooks', subname: 'ExcludedResources'},
       {name:'CompanyWebhookFields', childOf: 'CompanyWebhooks', subname: 'Fields'},
-      {name:'CompanyWebhookUdfFields', childOf: 'CompanyWebhoosk', subname: 'UdfFields'},
+      {name: 'CompanyWebhookUdfFields', childOf: 'CompanyWebhooks', subname: 'UdfFields'},
       {name:'ConfigurationItems'},
       {name:'ConfigurationItemAttachments', childOf: 'ConfigurationItems', subname: 'Attachments'},
       {name:'ConfigurationItemBillingProductAssociations', childOf: 'ConfigurationItems', subname: 'BillingProductAssociations'},
@@ -109,7 +109,7 @@ class AutotaskRestApi {
       {name:'ConfigurationItemNoteAttachments', childOf: 'ConfigurationItemNotes', subname: 'Attachments'},
       {name:'ConfigurationItemTypes'},
       {name:'Contacts'},
-      {name:'ContactBillingProductAssociations', childOf: 'Contacts', subname: 'BillingProductAssociationis'},
+      {name: 'ContactBillingProductAssociations', childOf: 'Contacts', subname: 'BillingProductAssociations'},
       {name:'ContactGroups'},
       {name:'ContactGroupContacts', childOf: 'ContactGroups', subname: 'Contacts'},
       {name:'ContactWebhooks'},

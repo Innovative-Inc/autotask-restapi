@@ -113,7 +113,7 @@ export type AvailableEntities = [
   },
   {
     name: "CompanyWebhookUdfFields"
-    childOf: "CompanyWebhoosk"
+    childOf: "CompanyWebhooks"
     subname: "UdfFields"
     type: entities.CompanyWebhookUdfField
   },
@@ -157,7 +157,7 @@ export type AvailableEntities = [
   {
     name: "ContactBillingProductAssociations"
     childOf: "Contacts"
-    subname: "BillingProductAssociationis"
+    subname: "BillingProductAssociations"
     type: entities.ContactBillingProductAssociation
   },
   { name: "ContactGroups"; type: entities.ContactGroup },

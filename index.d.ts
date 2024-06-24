@@ -14,7 +14,7 @@ export type RequestOptions = {
 }
 
 /**
- * Autotask REST API NodeJS connector.
+ * Autotask REST API Node.js connector.
  *
  * This class provides a simple interface to the Autotask REST API.
  */
